@@ -15,13 +15,23 @@ concurrency:
   cancel-in-progress: true
 jobs:
   build-debian:
-    if: github.event_name != 'schedule' || github.repository == 'sipwise/rtpengine'
+    if: github.event_name != 'schedule' || github.repository == 'rfuchs/rtpengine'
     runs-on: ubuntu-latest
     strategy:
       matrix:
         dist: [trixie, sid]
     steps:
       - uses: actions/checkout@v6
+      - name: Packaging backports
+        run: |
+          set -ex
+          pushd pkg/deb
+          ./generator.sh
+          backports/${{ matrix.dist }}
+          popd
+          rm -rf debian
+          mv pkg/deb/${{ matrix.dist }} debian
+          rm -rf pkg/deb/debian
       - name: Update changelog
         run: |
           set -ex
