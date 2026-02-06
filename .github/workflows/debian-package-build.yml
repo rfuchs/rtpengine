@@ -15,7 +15,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   build-debian:
-    if: github.event_name != 'schedule' || github.repository == 'sipwise/rtpengine'
+    if: github.event_name != 'schedule' || github.repository == 'rfuchs/rtpengine'
     runs-on: ubuntu-latest
     strategy:
       matrix:
