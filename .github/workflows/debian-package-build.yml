@@ -38,9 +38,9 @@ jobs:
           OLD_VERSION=$(dpkg-parsechangelog -SVersion)
           SOURCE=$(dpkg-parsechangelog -SSource)
           if [[ "${{ github.ref_type }}" == "tag" ]]; then
-            VERSION_SUFFIX="+gh"
+            VERSION_SUFFIX="+gh+${{ matrix.dist }}"
           else
-            VERSION_SUFFIX="+autobuild${GITHUB_RUN_NUMBER}"
+            VERSION_SUFFIX="+autobuild${GITHUB_RUN_NUMBER}+${{ matrix.dist }}"
           fi
           cat > debian/changelog <<EOT
           ${SOURCE} (${OLD_VERSION}${VERSION_SUFFIX}) UNRELEASED; urgency=medium
